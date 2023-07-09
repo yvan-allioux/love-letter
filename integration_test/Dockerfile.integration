@@ -1,0 +1,17 @@
+# Utilisez une image de base avec les dépendances nécessaires pour exécuter vos tests
+FROM node:14
+
+# Définir le répertoire de travail dans le conteneur
+WORKDIR /app
+
+# Copiez le package.json et le package-lock.json dans le conteneur
+COPY ./package*.json .
+
+# Copiez tous les fichiers du projet dans le conteneur
+COPY . .
+
+# Installez les dépendances de l'application pour le test, y compris Jest
+RUN npm install
+
+# Exécuter les tests
+CMD ["npm", "test"]

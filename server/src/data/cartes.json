@@ -1,0 +1,64 @@
+{
+    "cards": [
+        {
+            "name": "Espionne",
+            "power": 0,
+            "number": 2,
+            "description": "L'espionne n'a pas d'effet actif. Si à la fin de la manche, vous êtes le seul joueur encore en lice à avoir joué ou défaussé une espionne, vous gagnez 1 point"
+        },
+        {
+            "name": "Garde",
+            "power": 1,
+            "number": 6,
+            "description": "Choisissez un autre joueur et nommez un personnage autre que le garde. Si le joueur choisi possède ce rôle en main, il est éliminé."
+        },
+        {
+            "name": "Prêtre",
+            "power": 2,
+            "number": 2,
+            "description": "Choisissez un autre joueur et regardez discrètement sa main."
+        },
+        {
+            "name": "Baron",
+            "power": 3,
+            "number": 2,
+            "description": "Comparez discrètement la valeur de votre carte en main et celle d'un joueur de votre choix. Celui qui possède la carte de plus faible valeur est éliminé."
+        },
+        {
+            "name": "Servante",
+            "power": 4,
+            "number": 2,
+            "description": "Vous ne pouvez pas être ciblé par les autres joueurs jusqu'au début de votre prochain tour."
+        },
+        {
+            "name": "Prince",
+            "power": 5,
+            "number": 2,
+            "description": "Le joueur de votre choix défausse sa carte sans déclencher son effet et en pioche une nouvelle."
+        },
+        {
+            "name": "Chancelier",
+            "power": 6,
+            "number": 2,
+            "description": "Piochez 2 cartes du paquet et choisissez-en une seule que vous conservez. Vous devez remettre les 2 autres cartes sous le paquet, dans l'ordre que vous souhaitez."
+        },
+        {
+            "name": "Roi",
+            "power": 7,
+            "number": 1,
+            "description": "Échangez votre main contre celle d'un autre joueur de votre choix."
+        },
+        {
+            "name": "Comtesse",
+            "power": 8,
+            "number": 1,
+            "description": "La comtesse ne déclenche pas d'effet, mais vous devez forcément la jouer lorsque l'autre carte de votre main est un roi ou un prince."
+        },
+        {
+            "name": "Princesse",
+            "power": 9,
+            "number": 1,
+            "description": "Si vous jouez ou défaussez la princesse (quelle que soit la raison), vous êtes éliminés de la manche."
+        }
+    ]
+}

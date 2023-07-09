@@ -1,0 +1,23 @@
+version: '3'
+services:
+  server:
+    build: 
+      context: ./server
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3000:80"
+    container_name: love_letter_server
+
+  integration_tests:
+    build: 
+      context: ./integration_test
+      dockerfile: Dockerfile.integration
+    container_name: love_letter_integration_tests
+    depends_on:
+      - server
+
+
+
+#docker-compose up
+#docker-compose down
+
