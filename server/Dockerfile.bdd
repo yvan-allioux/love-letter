@@ -1,0 +1,15 @@
+# Utiliser l'image officielle de MariaDB
+FROM mariadb:latest
+
+# Définir les variables d'environnement pour MariaDB
+ENV MYSQL_ROOT_PASSWORD=mypass
+ENV MYSQL_DATABASE=loveletter
+
+# Copier les fichiers de données locaux dans le conteneur
+COPY ./src/data/mariadb /var/lib/mysql
+
+# Copier le script SQL dans le dossier docker-entrypoint-initdb.d
+COPY ./src/sql/init.sql /docker-entrypoint-initdb.d/
+
+# Exposer le port de MariaDB
+EXPOSE 3306

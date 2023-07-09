@@ -2,12 +2,35 @@ const express = require('express');
 const app = express();
 const port = 80;
 
+//mariaDB
+const mysql = require('mysql2/promise');
+// Config
+const config = {
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+};
+const pool = mysql.createPool(config);
+
 // Import du fichier JSON
 const cards = require('./data/cartes.json');
+
 
 // Route principale
 app.get('/', (req, res) => {
   res.send('Bienvenue sur ma page d\'accueil !');
+});
+
+// Renvoie toutes les cartes de la base de données
+app.get('/deck', async (req, res) => {
+  try {
+    const [rows, fields] = await pool.query('SELECT * FROM deck');
+    res.json(rows);
+  } catch(err) {
+    console.error(`Error while getting the data from DB: ${err.stack}`);
+    res.status(500).send('Error while getting the data');
+  }
 });
 
 // Renvoie toutes les cartes

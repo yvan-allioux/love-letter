@@ -6,7 +6,25 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       - "3000:80"
+    environment:
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=mypass
+      - DB_NAME=loveletter
     container_name: love_letter_server
+    depends_on:
+      - mariadb
+
+  mariadb:
+    build: 
+      context: ./server
+      dockerfile: Dockerfile.bdd
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - .server/src/data/mariadb:/var/lib/mysql
 
   integration_tests:
     build: 
@@ -15,9 +33,3 @@ services:
     container_name: love_letter_integration_tests
     depends_on:
       - server
-
-
-
-#docker-compose up
-#docker-compose down
-

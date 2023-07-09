@@ -1,3 +1,6 @@
+#database
+server/src/data/mariadb/*
+
 # Logs
 logs
 *.log
