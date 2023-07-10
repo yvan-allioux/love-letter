@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS loveletter;
 CREATE DATABASE loveletter;
 
 GRANT ALL ON loveletter.* TO 'my_loveletter_user'@'%' IDENTIFIED BY 'mypass';
@@ -40,7 +41,7 @@ CREATE TABLE joueur (
 
 
 INSERT INTO partie (col1, col2, col3, col4, col5, col6, col7, col8, col9)
-VALUES (1, 2, 3, 4, 5, 1, 2, 3, 6);
+VALUES (1, 2, 3, 4, 5, 1, 2, 3, 1);
 
 INSERT INTO joueur (partie_id, col1, col2, col3, col4, col5, col6, col7, col8, col9, pseudo, mot_de_passe, victoires, defaites)
 VALUES (1, 1, 2, 3, 4, 5, 1, 2, 3, 4, 'joueur1', 'password1', 5, 3);

@@ -9,9 +9,6 @@ TODO
 3 Connexion API REST
 
 
-### adminer
-docker run -p 3000:80 -t adminer
-
 
 ### server
 sudo docker build -t loveletter -f Dockerfile.prod .
@@ -28,8 +25,10 @@ docker build -t loveletter-integration -f Dockerfile.integration .
 docker run -p 3000:80 loveletter-integration
 
 ### compose
+docker-compose -f docker-compose.prod.yml up --build
 docker-compose -f docker-compose.integration.yml up --build
-
+# supression des conteneur et des volumes
+sudo docker-compose -f docker-compose.integration.yml down -v
 
 ### bdd
 docker build -t love-letter_mariadb -f ./Dockerfile.bdd .
