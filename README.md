@@ -9,8 +9,12 @@ TODO
 3 Connexion API REST
 
 
+### adminer
+docker run -p 3000:80 -t adminer
+
+
 ### server
-docker build -t loveletter -f Dockerfile.prod .
+sudo docker build -t loveletter -f Dockerfile.prod .
 docker run -p 3000:80 loveletter
 docker build -t loveletter -f Dockerfile.prod . && docker run -p 3000:80 loveletter
 

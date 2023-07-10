@@ -11,10 +11,9 @@ services:
       - db
 
   db:
-    image: mysql:5.7
+    build: .
     environment:
-      MYSQL_ROOT_PASSWORD: myrootpass
-      MYSQL_DATABASE: mydb
+      MYSQL_DATABASE: loveletter
       MYSQL_USER: myuser
       MYSQL_PASSWORD: mypass
     volumes:

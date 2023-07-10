@@ -9,7 +9,7 @@ services:
     environment:
       - DB_HOST=mariadb
       - DB_PORT=3306
-      - DB_USER=root
+      - DB_USER=my_loveletter_user
       - DB_PASSWORD=mypass
       - DB_NAME=loveletter
     container_name: love_letter_server
@@ -17,14 +17,16 @@ services:
       - mariadb
 
   mariadb:
-    build: 
+    build:
       context: ./server
       dockerfile: Dockerfile.bdd
-    ports:
-      - "3306:3306"
-    restart: always
+    environment:
+      MYSQL_DATABASE: loveletter
+      MYSQL_ROOT_PASSWORD: myrootpass
+      MYSQL_USER: my_loveletter_user
+      MYSQL_PASSWORD: mypass
     volumes:
-      - .server/src/data/mariadb:/var/lib/mysql
+      - db_data:/var/lib/mysql
 
   integration_tests:
     build: 
@@ -33,3 +35,13 @@ services:
     container_name: love_letter_integration_tests
     depends_on:
       - server
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  db_data:
+

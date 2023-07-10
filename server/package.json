@@ -10,7 +10,8 @@
   "author": "Yvan",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "latest",
+    "mysql2": "latest"
   },
   "devDependencies": {
     "jest": "^29.6.1"
