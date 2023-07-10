@@ -97,6 +97,25 @@ app.get('/joueur/:id', async (req, res) => {
 });
 
 
+// Renvoie les détails d'une partie spécifique basé sur l'ID
+app.get('/partie/:id', async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const [rows, fields] = await pool.query('SELECT * FROM partie WHERE id = ?', [id]);
+    
+    if(rows.length > 0) {
+      res.json(rows[0]);
+    } else {
+      res.status(404).send('Partie non trouvé');
+    }
+  } catch(err) {
+    console.error(`Error while getting the player from DB: ${err.stack}`);
+    res.status(500).send('Erreur lors de la récupération des données');
+  }
+});
+
+
 
 // Gestion de l'erreur 404 pour les routes non trouvées
 app.use((req, res) => {
