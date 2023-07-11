@@ -4,6 +4,20 @@ TODO
 
 1 API REST
 
+inscription utilisateur OK
+connection utilisateur OK
+creation partie OK
+    joueur createur obtien partie ok
+rejoindre partie pour un autre joueur 
+lancer une partie
+autre joueur ne pauve pas rejoindre la partie
+a quelle qui de jouer ?
+quiter la partie
+mort joueur
+fin de partie 
+
+
+
 2 client Vue.js
 
 3 Connexion API REST

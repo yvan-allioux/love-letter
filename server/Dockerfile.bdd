@@ -11,8 +11,8 @@ ENV MYSQL_DATABASE=loveletter
 # Copier le script SQL dans le dossier docker-entrypoint-initdb.d
 RUN rm -rf /docker-entrypoint-initdb.d
 RUN mkdir /docker-entrypoint-initdb.d
-COPY ./src/sql/init.sql /docker-entrypoint-initdb.d/
-RUN chmod 755 /docker-entrypoint-initdb.d/init.sql
+COPY ./src/sql/* /docker-entrypoint-initdb.d/
+RUN chmod 755 /docker-entrypoint-initdb.d/*
 
 # Exposer le port de MariaDB
 EXPOSE 3306

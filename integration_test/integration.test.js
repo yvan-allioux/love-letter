@@ -26,5 +26,16 @@ describe('API integration tests', () => {
     });
   });
 
+  it('/carte/4', async () => {
+    const res = await request(api).get('/carte/4');
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toEqual({
+      name: 'Servante',
+      power: 4,
+      number: 2,
+      description: 'Vous ne pouvez pas être ciblé par les autres joueurs jusqu\'au début de votre prochain tour.'
+    });
+  });
+
   // ajoutez d'autres tests ici
 });

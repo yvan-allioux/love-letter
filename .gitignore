@@ -2,6 +2,9 @@
 server/src/data/mariadb/*
 server/src/config.env
 
+prompt.sh
+prompt.txt
+
 # Logs
 logs
 *.log
