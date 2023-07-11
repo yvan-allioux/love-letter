@@ -33,3 +33,16 @@ sudo docker-compose -f docker-compose.integration.yml down -v
 ### bdd
 docker build -t love-letter_mariadb -f ./Dockerfile.bdd .
 docker run -d --restart=always -p 3306:3306 -v ./src/data/mariadb:/var/lib/mysql love-letter_mariadb
+
+### server/src/config.env
+SESSION_SECRET=
+
+DB_HOST=mariadb
+DB_PORT=3306
+DB_USER=
+DB_PASSWORD=
+DB_NAME=loveletter
+
+
+
+

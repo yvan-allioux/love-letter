@@ -1,5 +1,6 @@
 #database
 server/src/data/mariadb/*
+server/src/config.env
 
 # Logs
 logs

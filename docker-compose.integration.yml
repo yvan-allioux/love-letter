@@ -6,12 +6,6 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       - "3000:80"
-    environment:
-      - DB_HOST=mariadb
-      - DB_PORT=3306
-      - DB_USER=my_loveletter_user
-      - DB_PASSWORD=mypass
-      - DB_NAME=loveletter
     container_name: love_letter_server
     depends_on:
       - mariadb

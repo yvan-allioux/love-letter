@@ -1,6 +1,13 @@
 const express = require('express');
 const app = express();
+app.use(express.json());
 const port = 80;
+
+require('dotenv').config({ path: './config.env' });
+console.log('-----------process.env.DB_HOST: ', process.env.DB_HOST);
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 //mariaDB
 const mysql = require('mysql2/promise');
@@ -12,6 +19,16 @@ const config = {
   database: process.env.DB_NAME,
 };
 const pool = mysql.createPool(config);
+
+
+const session = require('express-session');
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }  // Set secure to true if you are using https
+}));
+
 
 // Import du fichier JSON
 const cards = require('./data/cartes.json');
@@ -114,6 +131,42 @@ app.get('/partie/:id', async (req, res) => {
     res.status(500).send('Erreur lors de la récupération des données');
   }
 });
+
+// création d'un nouveau joueur
+app.post('/joueur', async (req, res) => {
+  const { pseudo, mot_de_passe } = req.body;
+  console.log('req.body: ', req.body);
+
+  try {
+    const hashedPassword = await bcrypt.hash(mot_de_passe, saltRounds);
+
+    const result = await pool.query('INSERT INTO joueur (pseudo, mot_de_passe) VALUES (?, ?)', [pseudo, hashedPassword]);
+    
+    res.status(201).json({ message: "Joueur créé avec succès", joueurId: result.insertId });
+  } catch(err) {
+    console.error(`Error while creating the player in DB: ${err.stack}`);
+    res.status(500).send('Erreur lors de la création du joueur');
+  }
+});
+
+//création d'une nouvelle partie
+app.post('/partie', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      INSERT INTO partie 
+        (col0, col1, col2, col3, col4, col5, col6, col7, col8, col9) 
+      VALUES 
+        (DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
+    `);
+    
+    res.status(201).json({ message: "Partie créée avec succès " , partieId: result.insertId });
+  } catch(err) {
+    console.error(`Error while creating the game in DB: ${err.stack}`);
+    res.status(500).send('Erreur lors de la création de la partie');
+  }
+});
+
+
 
 
 
