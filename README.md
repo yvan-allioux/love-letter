@@ -7,8 +7,8 @@ TODO
 inscription utilisateur OK
 connection utilisateur OK
 creation partie OK
-    joueur createur obtien partie ok
-rejoindre partie pour un autre joueur 
+    joueur createur obtien partie OK
+rejoindre partie pour un autre joueur OK
 lancer une partie
 autre joueur ne pauve pas rejoindre la partie
 a quelle qui de jouer ?
