@@ -4,6 +4,7 @@ server/src/config.env
 
 prompt.sh
 prompt.txt
+*cookies.txt
 
 # Logs
 logs
