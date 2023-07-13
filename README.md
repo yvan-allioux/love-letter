@@ -60,3 +60,31 @@ DB_NAME=loveletter
 
 
 
+
+app.get('/', (req, res) => {
+app.get('/cartesJson', (req, res) => {
+app.get('/carteJson/:power', (req, res) => {
+app.get('/carteJson/:power/description', (req, res) => {
+app.get('/carteJson/:power/name', (req, res) => {
+app.get('/carteJson/:power/number', (req, res) => {
+app.get('/joueur/:id', async (req, res) => {
+app.post('/joueur', async (req, res) => {
+app.post('/login', async (req, res) => {
+app.post('/partie/:id/join', async (req, res) => {
+app.post('/partie/:id/leave', async (req, res) => {
+app.get('/partie/:id', async (req, res) => {
+app.post('/partie', async (req, res) => {
+app.post('/partie/:id/start', async (req, res) => {
+app.post('/carte/espionne', async (req, res) => {
+app.post('/carte/garde/:joueurId/:carteId', async (req, res) => {
+app.post('/carte/pretre/:joueurId/:carteId', async (req, res) => {
+app.post('/carte/baron/:joueurId/:carteId', async (req, res) => {
+app.post('/carte/servante/:carteId', async (req, res) => {
+app.post('/carte/prince/:joueurId/:carteId', async (req, res) => {
+app.post('/carte/chancelier/:carteId', async (req, res) => {
+app.post('/carte/roi/:joueurId/:carteId', async (req, res) => {
+app.post('/carte/comtesse/:carteId', async (req, res) => {
+app.post('/carte/princesse/:carteId', async (req, res) => {
+
+
+

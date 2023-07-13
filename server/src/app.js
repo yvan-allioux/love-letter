@@ -36,37 +36,53 @@ app.get('/', (req, res) => {
 
 // ------------- JSON ----------------
 
-const cardHandler = require('./cardsJson.js');
+// Import du fichier JSON
+const cards = require('./data/cartes.json');
 
 // Renvoie toutes les cartes
-app.get('/cartesJson', (req, res) => {
-  res.json(cardHandler.findAll());
+app.get('/JSONcartes', (req, res) => {
+  res.json(cards);
 });
 
 // Renvoie une carte spécifique basée sur la puissance
-app.get('/carteJson/:power', (req, res) => {
-  const card = cardHandler.findByPower(req.params.power);
-  card ? res.json(card) : res.status(404).send('Carte non trouvée');
+app.get('/carte/:power', (req, res) => {
+  const card = cards.cards.find(c => c.power === Number(req.params.power));
+  if (card) {
+    res.json(card);
+  } else {
+    res.status(404).send('Carte non trouvée');
+  }
 });
 
 // Renvoie la description d'une carte spécifique basée sur la puissance
-app.get('/carteJson/:power/description', (req, res) => {
-  const description = cardHandler.findDescriptionByPower(req.params.power);
-  description ? res.json(description) : res.status(404).send('Carte non trouvée');
+app.get('/carte/:power/description', (req, res) => {
+  const card = cards.cards.find(c => c.power === Number(req.params.power));
+  if (card) {
+    res.json(card.description);
+  } else {
+    res.status(404).send('Carte non trouvée');
+  }
 });
 
 // Renvoie le nom d'une carte spécifique basée sur la puissance
-app.get('/carteJson/:power/name', (req, res) => {
-  const name = cardHandler.findNameByPower(req.params.power);
-  name ? res.json(name) : res.status(404).send('Carte non trouvée');
+app.get('/carte/:power/name', (req, res) => {
+  const card = cards.cards.find(c => c.power === Number(req.params.power));
+  if (card) {
+    res.json(card.name);
+  } else {
+    res.status(404).send('Carte non trouvée');
+  }
 });
 
 // Renvoie le nombre de cartes d'une carte spécifique basée sur la puissance
-app.get('/carteJson/:power/number', (req, res) => {
-  const number = cardHandler.findNumberByPower(req.params.power);
-  number ? res.json(number) : res.status(404).send('Carte non trouvée');
+app.get('/carte/:power/number', (req, res) => {
+  const card = cards.cards.find(c => c.power === Number(req.params.power));
+  if (card) {
+    res.json(card.number);
+  } else {
+    res.status(404).send('Carte non trouvée');
+  }
 });
-
 
 // ------------- Joueur ----------------
 
