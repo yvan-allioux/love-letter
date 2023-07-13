@@ -9,12 +9,12 @@ connection utilisateur OK
 creation partie OK
     joueur createur obtien partie OK
 rejoindre partie pour un autre joueur OK
-lancer une partie
-autre joueur ne pauve pas rejoindre la partie
-a quelle qui de jouer ?
-quiter la partie
-mort joueur
-fin de partie 
+lancer une partie OK
+autre joueur ne pauve pas rejoindre la partie si elle est lancée OK
+a quelle qui de jouer ? (le joueur qui a 2 carte) OK
+quiter la partie OK
+mort joueur (le joueur na pas de carte)
+fin de partie (tout les joueur son mort sauf 1)
 
 
 

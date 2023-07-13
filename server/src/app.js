@@ -105,14 +105,14 @@ app.get('/joueur/:id', async (req, res) => {
 
   try {
     const [rows, fields] = await pool.query('SELECT * FROM joueur WHERE id = ?', [id]);
-    
+
     // Vérifie que l'utilisateur demandé est le même que l'utilisateur connecté
-    if(rows.length > 0 && rows[0].id === req.session.joueurId) {
+    if (rows.length > 0 && rows[0].id === req.session.joueurId) {
       res.json(rows[0]);
     } else {
       res.status(404).send('Joueur non trouvé OU non autorisé');
     }
-  } catch(err) {
+  } catch (err) {
     console.error(`Error while getting the player from DB: ${err.stack}`);
     res.status(500).send('Erreur lors de la récupération des données');
   }
@@ -135,13 +135,13 @@ app.get('/partie/:id', async (req, res) => {
 
   try {
     const [rows, fields] = await pool.query('SELECT id, date_creation, partie_demarree FROM partie WHERE id = ?', [id]);
-    
-    if(rows.length > 0) {
+
+    if (rows.length > 0) {
       res.json(rows[0]);
     } else {
       res.status(404).send('Partie non trouvé');
     }
-  } catch(err) {
+  } catch (err) {
     console.error(`Error while getting the player from DB: ${err.stack}`);
     res.status(500).send('Erreur lors de la récupération des données');
   }
@@ -159,15 +159,15 @@ app.post('/joueur', async (req, res) => {
   try {
     // Vérifier si le pseudo existe déjà
     const [rows, fields] = await pool.query('SELECT * FROM joueur WHERE pseudo = ?', [pseudo]);
-    if(rows.length > 0) {
+    if (rows.length > 0) {
       return res.status(400).send('Pseudo déjà utilisé');
     }
 
     const hashedPassword = await bcrypt.hash(mot_de_passe, saltRounds);
     const [result] = await pool.query('INSERT INTO joueur (pseudo, mot_de_passe) VALUES (?, ?)', [pseudo, hashedPassword]);
-    
+
     res.status(201).json({ message: "Joueur créé avec succès", joueurId: result.insertId });
-  } catch(err) {
+  } catch (err) {
     console.error(`Error while creating the player in DB: ${err.stack}`);
     res.status(500).send('Erreur lors de la création du joueur');
   }
@@ -193,27 +193,27 @@ app.post('/partie', async (req, res) => {
     `);
 
     let deckRandom = [
-      {puissance: 0},
-      {puissance: 0},
-      {puissance: 1},
-      {puissance: 1},
-      {puissance: 1},
-      {puissance: 1},
-      {puissance: 1},
-      {puissance: 1},
-      {puissance: 2},
-      {puissance: 2},
-      {puissance: 3},
-      {puissance: 3},
-      {puissance: 4},
-      {puissance: 4},
-      {puissance: 5},
-      {puissance: 5},
-      {puissance: 6},
-      {puissance: 6},
-      {puissance: 7},
-      {puissance: 8},
-      {puissance: 9}
+      { puissance: 0 },
+      { puissance: 0 },
+      { puissance: 1 },
+      { puissance: 1 },
+      { puissance: 1 },
+      { puissance: 1 },
+      { puissance: 1 },
+      { puissance: 1 },
+      { puissance: 2 },
+      { puissance: 2 },
+      { puissance: 3 },
+      { puissance: 3 },
+      { puissance: 4 },
+      { puissance: 4 },
+      { puissance: 5 },
+      { puissance: 5 },
+      { puissance: 6 },
+      { puissance: 6 },
+      { puissance: 7 },
+      { puissance: 8 },
+      { puissance: 9 }
     ];
 
     // shuffle the deck
@@ -226,14 +226,14 @@ app.post('/partie', async (req, res) => {
     for (let card of deckRandom) {
       await pool.query(`INSERT INTO deck (puissance, partie_id) VALUES (?, ?)`, [card.puissance, result.insertId]);
     }
-    
+
 
     // modification du joueur pour ajouter la partie
     await pool.query('UPDATE joueur SET partie_id = ? WHERE id = ?', [result.insertId, req.session.joueurId]);
-    
-    
-    res.status(201).json({ message: "Partie créée avec succès " , partieId: result.insertId });
-  } catch(err) {
+
+
+    res.status(201).json({ message: "Partie créée avec succès ", partieId: result.insertId });
+  } catch (err) {
     console.error(`Error while creating the game in DB: ${err.stack}`);
     res.status(500).send('Erreur lors de la création de la partie');
   }
@@ -268,7 +268,7 @@ app.post('/login', async (req, res) => {
       // Utilisateur non trouvé
       res.status(404).json({ message: "Utilisateur non trouvé" });
     }
-  } catch(err) {
+  } catch (err) {
     console.error(`Error while logging in the player: ${err.stack}`);
     res.status(500).send('Erreur lors de la connexion');
   }
@@ -291,10 +291,10 @@ app.post('/partie/:id/join', async (req, res) => {
   try {
     //on recupere la partie concernée
     const [rows, fields] = await pool.query('SELECT id, partie_demarree FROM partie WHERE id = ?', [id]);
-    
+
     // Vérifie si la partie existe et si elle n'a pas encore démarré
-    if(rows.length > 0 && !rows[0].partie_demarree) {
-      
+    if (rows.length > 0 && !rows[0].partie_demarree) {
+
       // modification du joueur pour ajouter la partie
       await pool.query('UPDATE joueur SET partie_id = ? WHERE id = ?', [id, req.session.joueurId]);
 
@@ -302,7 +302,7 @@ app.post('/partie/:id/join', async (req, res) => {
     } else {
       res.status(404).send('Impossible de rejoindre la partie. Soit la partie n\'existe pas, soit elle a déjà démarré.');
     }
-  } catch(err) {
+  } catch (err) {
     console.error(`Error while joining the game: ${err.stack}`);
     res.status(500).send('Erreur lors de la tentative de rejoindre la partie');
   }
@@ -324,49 +324,85 @@ app.post('/partie/:id/start', async (req, res) => {
 
   try {
     // Vérifie si la partie existe et n'a pas déjà été lancée
-    /* const [rows, fields] = await pool.query('SELECT partie_demarree FROM partie WHERE id = ?', [id]);
+    const [rows, fields] = await pool.query('SELECT partie_demarree FROM partie WHERE id = ?', [id]);
     if(rows.length === 0) {
       return res.status(404).send('Partie non trouvée');
     } else if(rows[0].partie_demarree) {
       return res.status(400).send('La partie a déjà été lancée');
-    } */
+    }
 
     // Vérifie que l'utilisateur actuellement connecté fait partie de la partie
-    /* const [joueurRows, fields2] = await pool.query('SELECT * FROM joueur WHERE partie_id = ?', [id]);
-    if((id === req.session.joueurId)) {//test si req.session.joueurId est dans cette partie
+    const [joueurRows, fields2] = await pool.query('SELECT * FROM joueur WHERE partie_id = ?', [id]);
+    if ((id === req.session.joueurId)) {//test si req.session.joueurId est dans cette partie
       return res.status(401).send('Non autorisé: vous devez faire partie de la partie pour la lancer OU il n\'y a pas assez de joueurs');
-    }else if(joueurRows.length === 2){//test il y a exactement 2 joueurs dans la partie
-      await pool.query(`UPDATE partie SET col0 = ?, col6 = ? WHERE partie_id = ?`, [0, 0, id]);
-    } */
+    } else if (joueurRows.length === 2) { // vérifie qu'il y a exactement 2 joueurs dans la partie
+      // supprime toutes les cartes de puissance 0 et 6
+      await pool.query(`DELETE FROM deck WHERE partie_id = ? AND (puissance = ? OR puissance = ?)`, [id, 0, 6]);
 
-
-    //tirage de 1 carte au hasard
-    const [parties, fields3] = await pool.query('SELECT col0, col1, col2, col3, col4, col5, col6, col7, col8, col9  FROM partie WHERE id = ?', [id]);
-    const cartes = parties[0];
-    let tableauCartes = [];
-    // Pour chaque carte dans l'objet, on l'ajoute au tableau autant de fois que sa fréquence
-    for (let carte in cartes) {
-      for(let i = 0; i < cartes[carte]; i++) {
-        tableauCartes.push(carte);
+      // supprime une carte de puissance 1
+      const [cartes] = await pool.query(`SELECT * FROM deck WHERE partie_id = ? AND puissance = ? LIMIT 1`, [id, 1]);
+      if (cartes.length > 0) {
+        await pool.query(`DELETE FROM deck WHERE id = ?`, [cartes[0].id]);
       }
     }
-    // On sélectionne une carte au hasard dans le tableau
-    let carteRandom = tableauCartes[Math.floor(Math.random() * tableauCartes.length)];
-    //CHANSELIER PTN
-    
 
     // distribution des cartes aux joueurs
+    for (let j = 0; j < joueurRows.length; j++) {
+      // tirage de 1 cartes
+      const [cartes] = await pool.query('SELECT * FROM deck WHERE partie_id = ? AND joueur_id IS NULL ORDER BY id ASC LIMIT 1', [id]);
+      // affectation des 1 cartes au joueur
+      for (let i = 0; i < 1; i++) {
+        await pool.query('UPDATE deck SET joueur_id = ? WHERE id = ?', [joueurRows[j].id, cartes[i].id]);
+      }
+    }
+
+    //on donne une carte supplémentaire a un joueur aléatoire
+    const [cartes] = await pool.query('SELECT * FROM deck WHERE partie_id = ? AND joueur_id IS NULL ORDER BY id ASC LIMIT 1', [id]);
+    await pool.query('UPDATE deck SET joueur_id = ? WHERE id = ?', [joueurRows[Math.floor(Math.random() * joueurRows.length)].id, cartes[0].id]);
+
+
 
     // Mettre à jour la partie
     await pool.query('UPDATE partie SET partie_demarree = ? WHERE id = ?', [true, id]);
 
     res.json({ message: "La partie a démarré avec succès" });
-  } catch(err) {
+  } catch (err) {
     console.error(`Error while starting the game: ${err.stack}`);
     res.status(500).send('Erreur lors du lancement de la partie');
   }
 });
 
+/**
+ * post: /partie/:id/leave:
+ * desc: Un joueur quitte une partie existante
+ * param: id de la partie
+ * auth: utilisateur connecté
+ */
+app.post('/partie/:id/leave', async (req, res) => {
+  const id = req.params.id;
+
+  // Vérification de la connexion de l'utilisateur
+  if (!req.session.joueurId) {
+    return res.status(401).send('Non autorisé: vous devez vous connecter pour accéder à ces informations');
+  }
+
+  try {
+    // Vérifie si la partie existe et si le joueur fait partie de la partie
+    const [rows, fields] = await pool.query('SELECT * FROM joueur WHERE id = ? AND partie_id = ?', [req.session.joueurId, id]);
+    
+    if (rows.length > 0) {
+      // Le joueur quitte la partie
+      await pool.query('UPDATE joueur SET partie_id = NULL WHERE id = ?', [req.session.joueurId]);
+
+      res.json({ message: "Vous avez quitté la partie avec succès" });
+    } else {
+      res.status(404).send('Impossible de quitter la partie. Soit la partie n\'existe pas, soit vous n\'en faites pas partie.');
+    }
+  } catch (err) {
+    console.error(`Error while leaving the game: ${err.stack}`);
+    res.status(500).send('Erreur lors de la tentative de quitter la partie');
+  }
+});
 
 
 
